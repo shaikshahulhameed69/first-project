@@ -30,7 +30,7 @@ jobs:
 
       - name: Deploy to S3
         run: |
-          aws s3 sync . s3://YOUR-BUCKET-NAME \
+          aws s3 sync . s3://first-project-github-website \
             --exclude ".git/*" \
             --exclude ".github/*"
 
