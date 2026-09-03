@@ -1,1 +1,38 @@
+name: Portfolio CI
 
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check HTML
+        run: |
+          test -f index.html
+          echo "✅ index.html found"
+
+      - name: Check CSS
+        run: |
+          test -f style.css
+          echo "✅ style.css found"
+
+      - name: Check JavaScript
+        run: |
+          test -f script.js
+          echo "✅ script.js found"
+
+      - name: Portfolio validation
+        run: |
+          echo "✅ Portfolio files are ready"
+          echo "🚀 Portfolio CI completed successfully"
