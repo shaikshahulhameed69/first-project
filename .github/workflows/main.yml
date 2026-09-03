@@ -1,0 +1,39 @@
+name: Deploy Portfolio to AWS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Check portfolio files
+        run: |
+          test -f index.html
+          test -f style.css
+          test -f script.js
+          echo "✅ Portfolio files found"
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync . s3://first-project-github-website \
+            --exclude ".git/*" \
+            --exclude ".github/*"
+
+      - name: Deployment successful
+        run: |
+          echo "🚀 Portfolio deployed successfully to AWS S3!"
